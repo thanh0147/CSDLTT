@@ -51,7 +51,7 @@ export default function Dashboard() {
 
     const fetchMaterials = async () => {
         try {
-            const res = await axios.get('http://127.0.0.1:8000/materials', {
+            const res = await axios.get('https://backend-csdltt.onrender.com/materials', {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setMaterials(res.data.data);
@@ -83,7 +83,7 @@ export default function Dashboard() {
     const fetchStats = async () => {
         setLoading(true);
         try {
-            const res = await axios.get('http://127.0.0.1:8000/stats/access-over-time', {
+            const res = await axios.get('https://backend-csdltt.onrender.com/stats/access-over-time', {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setChartData({
@@ -106,7 +106,7 @@ export default function Dashboard() {
         data.append('name', addForm.name); data.append('course_code', addForm.course_code);
         data.append('department', addForm.department); data.append('file', addFile);
         try {
-            await axios.post('http://127.0.0.1:8000/materials/upload', data, {headers: { Authorization: `Bearer ${token}` }});
+            await axios.post('https://backend-csdltt.onrender.com/materials/upload', data, {headers: { Authorization: `Bearer ${token}` }});
             alert('Thêm thành công!'); setShowAddModal(false); fetchMaterials(); 
         } catch (err) { alert('Lỗi upload'); } finally { setLoading(false); }
     };
@@ -114,7 +114,7 @@ export default function Dashboard() {
     const handleDelete = async (id) => {
         if (!window.confirm("Xác nhận xóa?")) return;
         try {
-            await axios.delete(`http://127.0.0.1:8000/materials/${id}`, {headers: { Authorization: `Bearer ${token}` }});
+            await axios.delete(`https://backend-csdltt.onrender.com/materials/${id}`, {headers: { Authorization: `Bearer ${token}` }});
             setMaterials(materials.filter(item => item._id !== id));
         } catch (err) { alert("Không có quyền xóa."); }
     };
@@ -126,14 +126,14 @@ export default function Dashboard() {
         data.append('department', editForm.department);
         if (editFile) data.append('file', editFile);
         try {
-            await axios.put(`http://127.0.0.1:8000/materials/${editId}`, data, {headers: { Authorization: `Bearer ${token}` }});
+            await axios.put(`https://backend-csdltt.onrender.com/materials/${editId}`, data, {headers: { Authorization: `Bearer ${token}` }});
             alert('Cập nhật xong!'); setShowEditModal(false); fetchMaterials();
         } catch (err) { alert('Lỗi cập nhật'); } finally { setLoading(false); }
     };
 
     const handleDownload = async (fileId, fileName) => {
         try {
-            const res = await axios.get(`http://127.0.0.1:8000/materials/download/${fileId}`, {
+            const res = await axios.get(`https://backend-csdltt.onrender.com/materials/download/${fileId}`, {
                 headers: { Authorization: `Bearer ${token}` }, responseType: 'blob',
             });
             const url = window.URL.createObjectURL(new Blob([res.data]));

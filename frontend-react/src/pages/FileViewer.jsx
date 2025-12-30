@@ -8,7 +8,7 @@ export default function FileViewer() {
     const [fileType, setFileType] = useState('');
     
     // URL trực tiếp từ Backend (Vì ở Bước 2 ta đã mở public nên không cần Token nữa)
-    const fileUrl = `http://127.0.0.1:8000/materials/view/${fileId}`;
+    const fileUrl = `https://backend-csdltt.onrender.com/materials/view/${fileId}`;
 
     return (
         <div className="vh-100 d-flex flex-column bg-dark">
@@ -16,7 +16,7 @@ export default function FileViewer() {
             <div className="bg-secondary text-white p-2 d-flex justify-content-between align-items-center">
                 <h6 className="m-0 ms-3">🔍 Xem Tài Liệu</h6>
                 <div>
-                    <a href={`http://127.0.0.1:8000/materials/download/${fileId}`} className="btn btn-primary btn-sm me-2">
+                    <a href={`https://backend-csdltt.onrender.com/materials/download/${fileId}`} className="btn btn-primary btn-sm me-2">
                         ⬇ Tải Về
                     </a>
                     <button className="btn btn-danger btn-sm me-3" onClick={() => navigate('/')}>

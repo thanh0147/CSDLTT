@@ -14,7 +14,7 @@ export default function Login() {
             formData.append('username', username);
             formData.append('password', password);
 
-            const res = await axios.post('http://127.0.0.1:8000/token', formData);
+            const res = await axios.post('https://backend-csdltt.onrender.com/token', formData);
             
             // Lưu token vào localStorage
             localStorage.setItem('token', res.data.access_token);
