@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+  # 1. Config Server: Quản lý metadata
+  configsvr:
+    image: mongo:6.0
+    container_name: configsvr
+    command: mongod --configsvr --replSet rs-config --bind_ip_all
+    ports:
+      - "27019:27019"
+    networks:
+      - app-network
+
+  # 2. Shard 1: Node lưu dữ liệu phân mảnh 1
+  shard1:
+    image: mongo:6.0
+    container_name: shard1
+    command: mongod --shardsvr --replSet rs-shard1 --bind_ip_all
+    ports:
+      - "27018:27018"
+    networks:
+      - app-network
+
+  # 3. Shard 2: Node lưu dữ liệu phân mảnh 2
+  shard2:
+    image: mongo:6.0
+    container_name: shard2
+    command: mongod --shardsvr --replSet rs-shard2 --bind_ip_all
+    ports:
+      - "27020:27018" # Map cổng 27020 của máy thật vào 27018 của container
+    networks:
+      - app-network
+
+  # 4. Mongos Router: Cổng giao tiếp (API sẽ kết nối vào đây)
+  router:
+    image: mongo:6.0
+    container_name: router
+    command: mongos --configdb rs-config/configsvr:27019 --bind_ip_all
+    ports:
+      - "27117:27117" # Cổng mặc định để Compass/Code kết nối
+    depends_on:
+      - configsvr
+      - shard1
+      - shard2
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
