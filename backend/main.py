@@ -12,13 +12,19 @@ import sys
 import os
 app = FastAPI()
 
-# --- CẬP NHẬT PHẦN CẤU HÌNH CORS ---
+# --- CẤU HÌNH CORS (BẮT BUỘC ĐỂ KHẮC PHỤC LỖI) ---
+origins = [
+    "*", # Cho phép tất cả các nguồn truy cập (Dễ nhất cho đồ án)
+    "https://csdltt-txt.onrender.com", # Hoặc bạn có thể ghi cụ thể link frontend của bạn vào đây
+    "http://localhost:5173", # Cho phép cả localhost khi chạy máy nhà
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"], 
+    allow_origins=origins, # Sử dụng danh sách origins ở trên
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=["*"], # Cho phép tất cả các method (GET, POST, PUT, DELETE...)
+    allow_headers=["*"], # Cho phép tất cả các headers
 )
 
 # --- KẾT NỐI DB ---
